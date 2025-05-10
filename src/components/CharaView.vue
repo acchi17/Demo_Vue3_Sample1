@@ -21,9 +21,9 @@ export default {
       required: true
     }
   },
-  computed: {
-    characterStyle() {
-      return {
+  data() {
+    return {
+      characterStyle: {
         '--jump-height': `${this.character.jumpHeight}px`
       }
     }
