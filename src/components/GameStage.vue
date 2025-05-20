@@ -1,12 +1,10 @@
 <template>
-  <div class="game-stage">
+  <div ref="stage" class="game-stage">
     <CharaView 
       :character="redCharacter"
-      class="red-character"
     />
     <CharaView 
       :character="greenCharacter"
-      class="green-character"
     />
   </div>
 </template>
@@ -26,6 +24,25 @@ export default {
       redCharacter: new RedChara(),
       greenCharacter: new GreenChara()
     };
+  },
+  mounted() {
+    this.setCharacterPositions();
+    window.addEventListener('resize', this.setCharacterPositions);
+  },
+  beforeUnmount() {
+    window.removeEventListener('resize', this.setCharacterPositions);
+  },
+  methods: {
+    setCharacterPositions() {
+      const stage = this.$refs.stage;
+      const stageWidth = stage.offsetWidth;
+      const centerX = stageWidth / 2;
+      
+      this.redCharacter.position.x = centerX - 100;
+      this.redCharacter.position.y = 400
+      this.greenCharacter.position.x = centerX + 100;
+      this.greenCharacter.position.y = 400;
+    }
   }
 }
 </script>
@@ -39,10 +56,5 @@ export default {
   align-items: center;
   padding-top: 100px;
   background-color: #f5f5f5;
-}
-
-.red-character,
-.green-character {
-  margin: 0 50px; /* キャラクター間の間隔 */
 }
 </style>
