@@ -43,6 +43,6 @@ export default {
 
 .red-character,
 .green-character {
-  margin: 0 50px; /* キャラクター間の間隔 */
+  margin: 0 50px; /* Spacing between characters */
 }
 </style>

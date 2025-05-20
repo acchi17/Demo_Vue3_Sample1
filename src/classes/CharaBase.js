@@ -1,9 +1,9 @@
 /**
- * キャラクターの基底クラス
+ * Base class for characters
  */
 export default class CharaBase {
   /**
-   * @param {string} name - キャラクター名
+   * @param {string} name - Character name
    */
   constructor(name) {
     this.name = name;
@@ -13,14 +13,14 @@ export default class CharaBase {
   }
 
   /**
-   * ジャンプアクションを実行
+   * Execute jump action
    */
   jump() {
     if (this.isJumping) return;
     
     this.isJumping = true;
     
-    // ジャンプアニメーション完了後にフラグをリセット
+    // Reset flag after a certain period of time
     setTimeout(() => {
       this.isJumping = false;
     }, 500);

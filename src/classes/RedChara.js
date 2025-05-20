@@ -1,7 +1,7 @@
 import CharaBase from './CharaBase';
 
 /**
- * 赤キャラクタークラス
+ * Red character class
  */
 export default class RedChara extends CharaBase {
   constructor() {

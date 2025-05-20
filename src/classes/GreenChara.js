@@ -1,7 +1,7 @@
 import CharaBase from './CharaBase';
 
 /**
- * 緑キャラクタークラス
+ * Green character class
  */
 export default class GreenChara extends CharaBase {
   constructor() {
