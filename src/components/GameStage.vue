@@ -12,9 +12,9 @@
 </template>
 
 <script>
-import CharaView from './CharaView.vue'
-import RedChara from '../classes/RedChara'
-import GreenChara from '../classes/GreenChara'
+import CharaView from './CharaView.vue';
+import RedChara from '../classes/RedChara';
+import GreenChara from '../classes/GreenChara';
 
 export default {
   name: 'GameStage',
@@ -25,7 +25,7 @@ export default {
     return {
       redCharacter: new RedChara(),
       greenCharacter: new GreenChara()
-    }
+    };
   }
 }
 </script>

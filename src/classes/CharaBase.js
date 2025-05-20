@@ -25,11 +25,4 @@ export default class CharaBase {
       this.isJumping = false;
     }, 500);
   }
-
-  /**
-   * クリックイベントハンドラー
-   */
-  handleClick() {
-    this.jump();
-  }
 }

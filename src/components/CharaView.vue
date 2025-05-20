@@ -3,7 +3,7 @@
     class="character"
     :class="{ 'jumping': character.isJumping }"
     :style="characterStyle"
-    @click="character.handleClick()"
+    @dblclick="character.jump()"
   >
     <div 
       class="character-icon"
@@ -26,7 +26,7 @@ export default {
       characterStyle: {
         '--jump-height': `${this.character.jumpHeight}px`
       }
-    }
+    };
   }
 }
 </script>
