@@ -100,8 +100,7 @@ export default {
   }
 }
 
-.character.dragging {
-  transition: none;
+.dragging {
   z-index: 1000;
 }
 </style>
