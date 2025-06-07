@@ -56,8 +56,11 @@ export default {
     handleDrag(event) {
       if (!this.character.isDragging) return;
       event.preventDefault(); // Suppressing browser default behavior
+      const stage = this.$parent.$refs.stage;
+      const stageRect = stage.getBoundingClientRect();
 
-      const newX = event.clientX - this.dragStartX;
+      let newX = event.clientX - this.dragStartX;
+      if (newX < stageRect.left) newX = stageRect.left
       const newY = this.character.position.y;
       this.character.setPosition(newX, newY);
     },

@@ -1,15 +1,18 @@
 <template>
   <div id="app">
-    <GameStage />
+    <CharaList class="left" />
+    <GameStage class="right" />
   </div>
 </template>
 
 <script>
+import CharaList from './components/CharaList.vue'
 import GameStage from './components/GameStage.vue'
 
 export default {
   name: 'App',
   components: {
+    CharaList,
     GameStage
   }
 }
@@ -29,5 +32,16 @@ export default {
   width: 100%;
   height: 100vh;
   overflow: hidden;
+  display: flex;
+}
+
+.left {
+  width: 200px;
+  background: #f0f0f0;
+}
+
+.right {
+  flex: 1;
+  background: #fff;
 }
 </style>

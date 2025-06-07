@@ -1,10 +1,20 @@
 <template>
-  <div ref="stage" class="game-stage">
-    <CharaView 
-      :character="redCharacter"
+  <div 
+    ref="stage" 
+    class="game-stage"
+    @dragenter="handleDragEnter"
+    @dragleave="handleDragLeave"
+  >
+    <div 
+      class="drop-area"
+      :class="{'is-dragging': isDragging}"
+      @drop="handleDrop"
+      @dragover.prevent
     />
     <CharaView 
-      :character="greenCharacter"
+      v-for="character in characters"
+      :key="character.id"
+      :character="character"
     />
   </div>
 </template>
@@ -21,8 +31,9 @@ export default {
   },
   data() {
     return {
-      redCharacter: new RedChara(),
-      greenCharacter: new GreenChara()
+      characters: [],
+      dragCounter: 0,
+      isDragging: false
     };
   },
   mounted() {
@@ -33,15 +44,30 @@ export default {
     window.removeEventListener('resize', this.setCharacterPositions);
   },
   methods: {
-    setCharacterPositions() {
-      const stage = this.$refs.stage;
-      const stageWidth = stage.offsetWidth;
-      const centerX = stageWidth / 2;
-      
-      this.redCharacter.position.x = centerX - 100;
-      this.redCharacter.position.y = 400
-      this.greenCharacter.position.x = centerX + 100;
-      this.greenCharacter.position.y = 400;
+    handleDragEnter() {
+      this.dragCounter++;
+      this.isDragging = true;
+    },
+    handleDragLeave() {
+      this.dragCounter--;
+      if (this.dragCounter === 0) {
+        this.isDragging = false;
+      }
+    },
+    handleDrop(event) {
+      this.dragCounter = 0;
+      this.isDragging = false;
+
+      const charaType = event.dataTransfer.getData('charaType');
+      let newChara;
+      if (charaType === 'red') {
+        newChara = new RedChara();
+      } else if (charaType === 'green') {
+        newChara = new GreenChara();
+      }
+      newChara.position.x = event.clientX;
+      newChara.position.y = 400;
+      this.characters.push(newChara);
     }
   }
 }
@@ -53,8 +79,18 @@ export default {
   height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding-top: 100px;
   background-color: #f5f5f5;
+}
+
+.drop-area {
+  position: relative;
+  margin-top: 400px;
+  width: 100%;
+  height: 50px;
+  transition: background-color 0.3s;
+}
+
+.drop-area.is-dragging {
+  background-color: rgba(0, 255, 0, 0.2);
 }
 </style>
