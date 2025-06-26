@@ -3,7 +3,8 @@
     class="character"
     :class="{ 
       'jumping': character.isJumping,
-      'dragging': character.isDragging 
+      'dragging': character.isDragging,
+      'selected': character.isSelected
     }"
     :style="characterStyle"
     @dblclick="character.jump()"
@@ -11,6 +12,7 @@
     @mousemove="handleDrag"
     @mouseup="endDrag"
     @mouseleave="endDrag"
+    @click="handleClick"
   >
     <div 
       class="character-icon"
@@ -20,6 +22,8 @@
 </template>
 
 <script>
+import { useCharacterStore } from '../stores/charaState';
+
 export default {
   name: 'CharaView',
   props: {
@@ -31,8 +35,14 @@ export default {
   data() {
     return {
       dragStartX: 0,
-      dragStartY: 0
+      dragStartY: 0,
+      dragStartOffsetX: 0,
+      dragStartOffsetY: 0
     };
+  },
+  setup() {
+    const characterStore = useCharacterStore();
+    return { characterStore };
   },
   computed: {
     characterStyle() {
@@ -48,18 +58,22 @@ export default {
       if (this.character.isJumping) return;
       event.preventDefault(); // Suppressing browser default behavior
 
+      this.dragStartX = event.clientX;
+      this.dragStartY = event.clientY;
+      this.dragStartOffsetX = event.clientX - this.character.position.x;
+      this.dragStartOffsetY = event.clientY - this.character.position.y;
+
       this.character.startDrag();
-      this.dragStartX = event.clientX - this.character.position.x;
-      this.dragStartY = event.clientY - this.character.position.y;
     },
     
     handleDrag(event) {
       if (!this.character.isDragging) return;
       event.preventDefault(); // Suppressing browser default behavior
+      
       const stage = this.$parent.$refs.stage;
       const stageRect = stage.getBoundingClientRect();
 
-      let newX = event.clientX - this.dragStartX;
+      let newX = event.clientX - this.dragStartOffsetX;
       if (newX < stageRect.left) newX = stageRect.left
       const newY = this.character.position.y;
       this.character.setPosition(newX, newY);
@@ -67,6 +81,17 @@ export default {
     
     endDrag() {
       this.character.endDrag();
+    },
+    
+    handleClick(event) {
+      const moveDistance = Math.sqrt(
+        Math.pow(event.clientX - this.dragStartX, 2) + 
+        Math.pow(event.clientY - this.dragStartY, 2)
+      );
+      if (moveDistance < 2) {
+        event.stopPropagation();
+        this.characterStore.selectCharacter(this.character);
+      }
     }
   }
 }
@@ -105,5 +130,12 @@ export default {
 
 .dragging {
   z-index: 1000;
+}
+
+.selected {
+  border: 3px solid #007bff;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+  transform: scale(1.05);
 }
 </style>

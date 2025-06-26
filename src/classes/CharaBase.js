@@ -15,6 +15,7 @@ export default class CharaBase {
       y: 0
     };
     this.isDragging = false;
+    this.isSelected = false;
   }
 
   /**
@@ -33,6 +34,14 @@ export default class CharaBase {
 
   endDrag() {
     this.isDragging = false;
+  }
+
+  /**
+   * Set selected state
+   * @param {boolean} selected - Selected state
+   */
+  setSelected(selected) {
+    this.isSelected = selected;
   }
 
   /**

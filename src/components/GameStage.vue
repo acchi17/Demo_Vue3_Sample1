@@ -4,6 +4,7 @@
     class="game-stage"
     @dragenter="handleDragEnter"
     @dragleave="handleDragLeave"
+    @click="handleSpaceClick"
   >
     <div 
       class="drop-area"
@@ -23,6 +24,7 @@
 import CharaView from './CharaView.vue';
 import RedChara from '../classes/RedChara';
 import GreenChara from '../classes/GreenChara';
+import { useCharacterStore } from '../stores/charaState';
 
 export default {
   name: 'GameStage',
@@ -36,12 +38,9 @@ export default {
       isDragging: false
     };
   },
-  mounted() {
-    this.setCharacterPositions();
-    window.addEventListener('resize', this.setCharacterPositions);
-  },
-  beforeUnmount() {
-    window.removeEventListener('resize', this.setCharacterPositions);
+  setup() {
+    const characterStore = useCharacterStore();
+    return { characterStore };
   },
   methods: {
     handleDragEnter() {
@@ -68,6 +67,11 @@ export default {
       newChara.position.x = event.clientX;
       newChara.position.y = 400;
       this.characters.push(newChara);
+    },
+    handleSpaceClick(event) {
+      if (event.target === this.$refs.stage || event.target.classList.contains('drop-area')) {
+        this.characterStore.clearSelection();
+      }
     }
   }
 }
