@@ -8,5 +8,7 @@ export default class RedChara extends CharaBase {
     super('Red');
     this.color = 'red';
     this.jumpHeight = 100;
+    this.jumpHeightMin = 0;
+    this.jumpHeightMax = 200;
   }
 }

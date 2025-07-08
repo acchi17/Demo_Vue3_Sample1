@@ -1,18 +1,23 @@
 <template>
   <div id="app">
-    <CharaList class="left" />
+    <div class="left">
+      <CharaList />
+      <CharaParam />
+    </div>
     <GameStage class="right" />
   </div>
 </template>
 
 <script>
 import CharaList from './components/CharaList.vue'
+import CharaParam from './components/CharaParam.vue'
 import GameStage from './components/GameStage.vue'
 
 export default {
   name: 'App',
   components: {
     CharaList,
+    CharaParam,
     GameStage
   }
 }
@@ -38,6 +43,9 @@ export default {
 .left {
   width: 200px;
   background: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 .right {

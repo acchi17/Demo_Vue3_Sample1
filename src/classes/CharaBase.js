@@ -16,6 +16,9 @@ export default class CharaBase {
     };
     this.isDragging = false;
     this.isSelected = false;
+    // サブクラスで定義される上下限値（デフォルト値）
+    this.jumpHeightMin = 0;
+    this.jumpHeightMax = 200;
   }
 
   /**
@@ -42,6 +45,40 @@ export default class CharaBase {
    */
   setSelected(selected) {
     this.isSelected = selected;
+  }
+
+  /**
+   * ジャンプ高度の上下限値を取得
+   * @returns {Object} {min, max}
+   */
+  getJumpHeightLimits() {
+    return {
+      min: this.jumpHeightMin,
+      max: this.jumpHeightMax
+    };
+  }
+
+  /**
+   * Set jump height with validation
+   * @param {number} height - Jump height value
+   */
+  setJumpHeight(height) {
+    // 数値型に変換
+    const numHeight = Number(height);
+    
+    // NaNチェック
+    if (isNaN(numHeight)) {
+      return;
+    }
+    
+    // 上下限値の適用
+    if (numHeight < this.jumpHeightMin) {
+      this.jumpHeight = this.jumpHeightMin;
+    } else if (numHeight > this.jumpHeightMax) {
+      this.jumpHeight = this.jumpHeightMax;
+    } else {
+      this.jumpHeight = numHeight;
+    }
   }
 
   /**
