@@ -7,11 +7,9 @@ export const useCharacterStore = defineStore('character', {
   
   actions: {
     selectCharacter(character) {
-      // 前の選択を解除
       if (this.selectedCharacter) {
         this.selectedCharacter.setSelected(false)
       }
-      // 新しいキャラクターを選択
       this.selectedCharacter = character
       character.setSelected(true)
     },

@@ -68,10 +68,8 @@ export default {
       newChara.position.y = 400;
       this.characters.push(newChara);
     },
-    handleSpaceClick(event) {
-      if (event.target === this.$refs.stage || event.target.classList.contains('drop-area')) {
-        this.characterStore.clearSelection();
-      }
+    handleSpaceClick() {
+      this.characterStore.clearSelection();
     }
   }
 }
